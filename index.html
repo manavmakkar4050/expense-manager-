@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Factory Construction Expense Tracker</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -15,8 +14,7 @@
   --bg:#F1F5F9;--card:#FFFFFF;--border:#E2E8F0;--text:#1E293B;--muted:#64748B;
   --sidebar:220px;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
 }
-html,body{min-height:100dvh;overflow-x:hidden}
-body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;display:flex;min-height:100vh;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;display:flex;min-height:100vh}
  
 /* ── Sidebar ── */
 .sidebar{width:var(--sidebar);background:var(--navy);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:width .2s}
@@ -30,15 +28,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
 .nav-item .icon{font-size:16px;width:20px;text-align:center}
 .nav-section{padding:16px 20px 6px;font-size:10px;font-weight:600;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase}
 .sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:rgba(255,255,255,.35)}
-.menu-toggle{display:none;align-items:center;justify-content:center;background:#fff;border:1px solid var(--border);border-radius:10px;width:40px;height:40px;font-size:18px;color:var(--navy);cursor:pointer}
-.sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.28);z-index:90;opacity:0;pointer-events:none;transition:opacity .2s ease}
-.sidebar-open .sidebar-backdrop{display:block;opacity:1;pointer-events:auto}
-.sidebar-open .sidebar{transform:translateX(0)}
-.sidebar{transition:transform .2s ease,width .2s}
-.chart-box canvas{width:100%;height:auto;display:block;max-width:100%}
-.trend-canvas-wrap{overflow-x:auto}
-.tbl-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
-
+ 
 /* ── Main ── */
 .main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
 .topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
@@ -198,61 +188,6 @@ input,select,textarea{transition:border .15s ease,box-shadow .15s ease}
 .modal-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px}
 .modal-sub{font-size:12px;color:var(--muted);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border)}
  
-/* ── Auth ── */
-#auth-screen{position:fixed;inset:0;background:linear-gradient(135deg,var(--navy),#122a44);display:flex;align-items:center;justify-content:center;z-index:2000}
-#auth-screen.hidden{display:none}
-.auth-box{background:#fff;border-radius:16px;padding:36px 32px;width:360px;max-width:90vw;box-shadow:0 24px 64px rgba(0,0,0,.35)}
-.auth-box h2{font-size:18px;color:var(--navy);margin-bottom:4px}
-.auth-box p{font-size:12px;color:var(--muted);margin-bottom:20px}
-.auth-box .fg{margin-bottom:14px}
-.auth-msg{font-size:12px;padding:8px 12px;border-radius:8px;margin-bottom:14px;display:none}
-.auth-msg.show{display:block}
-.auth-msg.error{background:var(--red2);color:var(--red)}
-.auth-msg.info{background:var(--blue4);color:var(--blue)}
-.auth-toggle{font-size:12px;color:var(--muted);text-align:center;margin-top:16px}
-.auth-toggle a{color:var(--blue);font-weight:600;cursor:pointer;text-decoration:none}
-#app-root{display:none}
-#app-root.ready{display:flex}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-right:5px}
-.sync-dot.busy{background:var(--amber)}
-.sync-dot.err{background:var(--red)}
-
-/* Responsive adjustments */
-@media (max-width:1024px){.content{padding:24px 18px}.topbar{padding:0 18px}.search-input{width:100%}}
-@media (max-width:900px){.sidebar{width:260px;position:fixed;top:0;left:0;height:100dvh;transform:translateX(-100%);box-shadow:2px 0 18px rgba(0,0,0,.18)}
-.main{margin-left:0!important}
-.topbar{padding:0 16px}
-.menu-toggle{display:inline-flex}
-.topbar h1{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100vw - 140px)}
-.content{padding:18px 16px 24px}
-.form-grid{grid-template-columns:1fr}
-.search-bar{flex-direction:column;align-items:stretch}
-.search-bar .search-input,.search-bar .filter-select,.search-bar .btn-sm{width:100%}
-.btn-group{flex-direction:column}
-.btn-group .btn{width:100%;justify-content:center}
-.chart-grid{grid-template-columns:1fr}
-.kpi-grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
-.modal-box{width:100%;max-width:92vw;margin:0 16px}
-.auth-box{width:100%;max-width:92vw}
-}
-@media (max-width:430px){.topbar{height:64px}.topbar .meta{font-size:11px;gap:8px}.logo{padding:18px 16px 14px}.content{padding:16px 14px 22px}}
-@media (max-width:768px){#app-root,.main,.content,#panel-entry,.card,.card-body,.form-grid{width:100%!important;max-width:none!important;min-width:0!important}
-.app-root,.main,.content,#panel-entry,.card,.card-body{box-sizing:border-box!important}
-.content{padding:16px 12px 22px}
-.main{margin-left:0!important;min-width:0!important}
-#panel-entry{width:100%!important;max-width:none!important}
-.card{width:100%!important;max-width:none!important;margin:0;border-radius:14px}
-.card-body{width:100%!important;max-width:none!important;padding:16px}
-.form-grid{grid-template-columns:1fr;gap:16px}
-.fg{width:100%;min-width:0}
-.search-bar,.btn-group{width:100%}
-.search-bar .search-input,.search-bar .filter-select,.search-bar .btn-sm,.btn-group .btn,input,select,textarea,textarea{width:100%!important;min-width:0!important}
-.btn-group{flex-direction:column}
-.btn-group .btn{justify-content:center}
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
-.tbl-wrap table{width:auto;min-width:720px}
-}
- 
 /* ── Print ── */
 @media print{
   .sidebar,.topbar,.btn-group,.search-bar,.modal-overlay{display:none!important}
@@ -261,25 +196,51 @@ input,select,textarea{transition:border .15s ease,box-shadow .15s ease}
   body{background:#fff!important}
   .card,.kpi-card{box-shadow:none!important;border:1px solid #ccc!important}
 }
+
+/* ── Supabase Auth ── */
+#auth-screen{min-height:100vh;width:100%;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--bg)}
+.auth-card{width:420px;max-width:100%;background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:28px}
+.auth-brand{font-size:28px;margin-bottom:6px}
+.auth-title{font-size:21px;font-weight:700;color:var(--text);margin-bottom:4px}
+.auth-sub{font-size:13px;color:var(--muted);margin-bottom:22px}
+.auth-error{display:none;background:var(--red2);color:var(--red);border:1px solid #fca5a5;border-radius:8px;padding:10px 12px;font-size:12px;margin-bottom:14px;white-space:pre-wrap}
+.auth-card .fg{margin-bottom:14px}
+.auth-card .btn{width:100%;justify-content:center;margin-top:4px}
+.auth-foot{font-size:11px;color:var(--muted);margin-top:16px;text-align:center}
+#app-shell{display:none;width:100%}
+.auth-user{display:flex;align-items:center;gap:8px}
+.auth-email{font-size:11px;color:var(--muted);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:700px){
+  #auth-screen{align-items:flex-start;padding:16px;padding-top:8vh}
+  .auth-card{padding:22px}
+  .auth-email{display:none}
+}
+
 </style>
 </head>
 <body>
-
-<!-- AUTH SCREEN -->
+ 
 <div id="auth-screen">
-  <div class="auth-box">
-    <h2 id="auth-title">🏭 Factory Tracker</h2>
-    <p id="auth-sub">Sign in to access your expense data — synced across all your devices.</p>
-    <div class="auth-msg" id="auth-msg"></div>
-    <div class="fg"><label>Email</label><input type="email" id="auth-email" placeholder="you@example.com" autocomplete="username"></div>
-    <div class="fg"><label>Password</label><input type="password" id="auth-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')authSubmit()"></div>
-    <button class="btn btn-primary" id="auth-btn" style="width:100%;justify-content:center" onclick="authSubmit()">Sign In</button>
-    <div class="auth-toggle" id="auth-toggle">New here? <a onclick="authToggleMode()">Create an account</a></div>
+  <div class="auth-card">
+    <div class="auth-brand">🏭</div>
+    <div class="auth-title">Factory Tracker</div>
+    <div class="auth-sub">Construction Expense Manager · Secure Cloud Login</div>
+    <div class="auth-error" id="auth-error"></div>
+    <div class="fg">
+      <label>Email</label>
+      <input type="email" id="auth-email" autocomplete="email" placeholder="you@example.com">
+    </div>
+    <div class="fg">
+      <label>Password</label>
+      <input type="password" id="auth-password" autocomplete="current-password" placeholder="Password"
+             onkeydown="if(event.key==='Enter')signIn()">
+    </div>
+    <button class="btn btn-primary" id="auth-btn" onclick="signIn()">Sign In</button>
+    <div class="auth-foot">Your bills are stored securely in the connected Supabase account.</div>
   </div>
 </div>
 
-<!-- APP ROOT -->
-<div id="app-root">
+<div id="app-shell">
 <!-- SIDEBAR -->
 <div class="sidebar">
   <div class="logo">
@@ -300,24 +261,17 @@ input,select,textarea{transition:border .15s ease,box-shadow .15s ease}
     <div class="nav-section">Settings</div>
     <div class="nav-item" onclick="nav('settings',this)"><span class="icon">⚙️</span> Manage Vendors</div>
   </div>
-  <div class="sidebar-footer">
-    <div id="sf">0 bills · ₹0 total</div>
-    <div style="margin-top:8px;display:flex;align-items:center;justify-content:space-between">
-      <span><span class="sync-dot" id="sync-dot"></span><span id="sync-text">Synced</span></span>
-      <a onclick="authSignOut()" style="color:rgba(255,255,255,.5);cursor:pointer;font-size:11px">Sign out</a>
-    </div>
-  </div>
+  <div class="sidebar-footer" id="sf">0 bills · ₹0 total</div>
 </div>
-  <div class="sidebar-backdrop" onclick="toggleSidebar(false)"></div>
  
 <!-- MAIN -->
 <div class="main">
   <div class="topbar">
-    <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">☰</button>
-    <div class="title-group"><h1 id="page-title">Dashboard</h1></div>
+    <h1 id="page-title">Dashboard</h1>
     <div class="meta">
       <span id="top-date"></span>
       <span class="badge-count" id="overdue-badge" style="display:none">0 Overdue</span>
+      <span class="auth-user"><span class="auth-email" id="auth-user-email"></span><button class="btn btn-ghost btn-sm" onclick="signOut()">Sign Out</button></span>
     </div>
   </div>
   <div class="content">
@@ -542,7 +496,8 @@ input,select,textarea{transition:border .15s ease,box-shadow .15s ease}
  
   </div>
 </div>
-</div><!-- /app-root -->
+
+</div>
  
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
@@ -567,7 +522,19 @@ input,select,textarea{transition:border .15s ease,box-shadow .15s ease}
   </div>
 </div>
  
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
 <script>
+const SUPABASE_URL = 'https://qnavackzjajwoauphiss.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_F7kksmQ6DN9Xv12qUk72aQ_Y_qeSCDj';
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+});
+
+let currentUser = null;
+let realtimeChannel = null;
+let saveInFlight = Promise.resolve();
+
 const INR = v => v==null||v===''?'—':'₹'+Number(v).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
 const INR0 = v => '₹'+Number(v||0).toLocaleString('en-IN',{minimumFractionDigits:0});
 const fmtD = d => {if(!d)return'—';const[y,m,dd]=d.split('-');return`${dd}-${m}-${y}`};
@@ -575,104 +542,182 @@ const todayStr = () => new Date().toISOString().split('T')[0];
 const monthName = m => ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m];
 const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
  
-// ── HTML escaping (prevents broken/unsafe output from vendor names, remarks, etc.) ──
-const esc = s => String(s??'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-// ── Supabase config ── fill these in from your Supabase project settings (Project Settings → API)
-const SUPABASE_URL = 'https://qnavackzjajwoauphiss.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_F7kksmQ6DN9Xv12qUk72aQ_Y_qeSCDj';
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+// ── Supabase Cloud Storage ──
 let bills=[], vendors=[];
-let editingId=null, payBillId=null;
-let currentUser=null, authMode='signin', realtimeChannel=null;
 
-// ── Cloud persistence ──
-function setSync(state){
-  const dot=document.getElementById('sync-dot'), txt=document.getElementById('sync-text');
-  if(!dot)return;
-  dot.className='sync-dot'+(state==='busy'?' busy':state==='err'?' err':'');
-  txt.textContent=state==='busy'?'Saving…':state==='err'?'Save failed':'Synced';
+function normalizeBill(b, index){
+  return {
+    id: b.id ?? index+1,
+    date: b.date || '',
+    vendor: b.vendor || '',
+    category: b.category || '',
+    subcat: b.subcat || '',
+    billno: b.billno || '',
+    billdate: b.billdate || '',
+    amount: Number(b.amount)||0,
+    gst: Number(b.gst)||0,
+    total: Number(b.total)||0,
+    paid: Number(b.paid)||0,
+    balance: Number(b.balance)||0,
+    status: b.status || 'Pending',
+    paydate: b.paydate || '',
+    paymode: b.paymode || '',
+    utr: b.utr || '',
+    duedate: b.duedate || '',
+    remarks: b.remarks || '',
+    payments: Array.isArray(b.payments) ? b.payments : []
+  };
 }
 
-async function persist(){
-  if(!currentUser)return;
-  setSync('busy');
-  const {error}=await sb.from('app_state').upsert({
-    user_id: currentUser.id, bills, vendors, updated_at: new Date().toISOString()
+function showAuthError(message){
+  const el=document.getElementById('auth-error');
+  el.textContent=message;
+  el.style.display='block';
+}
+
+function clearAuthError(){
+  const el=document.getElementById('auth-error');
+  el.textContent='';
+  el.style.display='none';
+}
+
+async function loadCloudState(){
+  if(!currentUser) return false;
+  const {data,error}=await db.from('app_state')
+    .select('bills,vendors')
+    .eq('user_id',currentUser.id)
+    .maybeSingle();
+
+  if(error) throw error;
+
+  if(data){
+    bills=Array.isArray(data.bills)?data.bills.map(normalizeBill):[];
+    vendors=Array.isArray(data.vendors)?data.vendors.filter(Boolean):[];
+  }else{
+    bills=[]; vendors=[];
+    const {error:insertError}=await db.from('app_state').insert({
+      user_id:currentUser.id,bills:[],vendors:[]
+    });
+    if(insertError) throw insertError;
+  }
+  return true;
+}
+
+function saveCloudState(){
+  if(!currentUser) return Promise.reject(new Error('Not signed in'));
+  const payload={
+    user_id:currentUser.id,
+    bills,
+    vendors,
+    updated_at:new Date().toISOString()
+  };
+  saveInFlight=saveInFlight.then(async()=>{
+    const {error}=await db.from('app_state').upsert(payload,{onConflict:'user_id'});
+    if(error) throw error;
   });
-  if(error){ setSync('err'); toast('Sync failed — check connection','error'); console.error(error); }
-  else setSync('ok');
+  return saveInFlight;
 }
 
-async function loadState(){
-  const {data,error}=await sb.from('app_state').select('bills,vendors').eq('user_id',currentUser.id).maybeSingle();
-  if(error){ toast('Could not load your data','error'); console.error(error); return; }
-  if(data){ bills=data.bills||[]; vendors=data.vendors||[]; }
-  else { bills=[]; vendors=[]; await persist(); }
+async function saveBills(d){
+  bills=d;
+  try{
+    await saveCloudState();
+  }catch(error){
+    console.error('Supabase save failed:',error);
+    toast('Cloud save failed: '+(error.message||'Unknown error'),'error');
+  }
+}
+
+async function saveVendors(d){
+  vendors=d;
+  try{
+    await saveCloudState();
+  }catch(error){
+    console.error('Supabase vendor save failed:',error);
+    toast('Cloud save failed: '+(error.message||'Unknown error'),'error');
+  }
+}
+
+async function signIn(){
+  clearAuthError();
+  const email=document.getElementById('auth-email').value.trim();
+  const password=document.getElementById('auth-password').value;
+  const btn=document.getElementById('auth-btn');
+  if(!email||!password){showAuthError('Enter your email and password.');return;}
+  btn.disabled=true;btn.textContent='Signing in…';
+  try{
+    const {data,error}=await db.auth.signInWithPassword({email,password});
+    if(error) throw error;
+    currentUser=data.user;
+    await startApp();
+  }catch(error){
+    console.error('Sign-in failed:',error);
+    showAuthError('Sign-in failed: '+(error.message||'Unknown error')+'\n\nIf Supabase is paused, resume the project and try again.');
+  }finally{
+    btn.disabled=false;btn.textContent='Sign In';
+  }
+}
+
+async function signOut(){
+  if(realtimeChannel){await db.removeChannel(realtimeChannel);realtimeChannel=null;}
+  await db.auth.signOut();
+  currentUser=null;bills=[];vendors=[];
+  document.getElementById('app-shell').style.display='none';
+  document.getElementById('auth-screen').style.display='flex';
+  document.getElementById('auth-password').value='';
 }
 
 function subscribeRealtime(){
-  if(realtimeChannel) sb.removeChannel(realtimeChannel);
-  realtimeChannel=sb.channel('app_state_'+currentUser.id)
-    .on('postgres_changes',{event:'*',schema:'public',table:'app_state',filter:`user_id=eq.${currentUser.id}`},payload=>{
-      if(!payload.new)return;
-      bills=payload.new.bills||[]; vendors=payload.new.vendors||[];
-      refreshAll(); refreshVendorDL();
-    }).subscribe();
+  if(realtimeChannel) db.removeChannel(realtimeChannel);
+  realtimeChannel=db.channel('app-state-sync')
+    .on('postgres_changes',
+      {event:'UPDATE',schema:'public',table:'app_state',filter:'user_id=eq.'+currentUser.id},
+      payload=>{
+        if(!payload.new) return;
+        bills=Array.isArray(payload.new.bills)?payload.new.bills.map(normalizeBill):[];
+        vendors=Array.isArray(payload.new.vendors)?payload.new.vendors.filter(Boolean):[];
+        refreshAll();
+      })
+    .subscribe();
 }
 
-// ── Auth ──
-function authToggleMode(){
-  authMode=authMode==='signin'?'signup':'signin';
-  document.getElementById('auth-btn').textContent=authMode==='signin'?'Sign In':'Create Account';
-  document.getElementById('auth-toggle').innerHTML=authMode==='signin'
-    ?'New here? <a onclick="authToggleMode()">Create an account</a>'
-    :'Already have an account? <a onclick="authToggleMode()">Sign in</a>';
-  showAuthMsg('');
-}
-function showAuthMsg(msg,type='error'){
-  const el=document.getElementById('auth-msg');
-  if(!msg){el.className='auth-msg';return;}
-  el.textContent=msg; el.className='auth-msg show '+type;
-}
-async function authSubmit(){
-  const email=document.getElementById('auth-email').value.trim();
-  const pass=document.getElementById('auth-pass').value;
-  if(!email||!pass){showAuthMsg('Enter email and password');return;}
-  document.getElementById('auth-btn').disabled=true;
-  if(authMode==='signup'){
-    const {data,error}=await sb.auth.signUp({email,password:pass});
-    if(error){showAuthMsg(error.message);document.getElementById('auth-btn').disabled=false;return;}
-    if(data.user && !data.session){showAuthMsg('Check your email to confirm your account, then sign in.','info');authToggleMode();document.getElementById('auth-btn').disabled=false;return;}
-  } else {
-    const {error}=await sb.auth.signInWithPassword({email,password:pass});
-    if(error){showAuthMsg(error.message);document.getElementById('auth-btn').disabled=false;return;}
-  }
-  document.getElementById('auth-btn').disabled=false;
-}
-async function authSignOut(){
-  if(realtimeChannel) sb.removeChannel(realtimeChannel);
-  await sb.auth.signOut();
-}
-async function bootApp(user){
-  currentUser=user;
-  document.getElementById('auth-screen').classList.add('hidden');
-  document.getElementById('app-root').classList.add('ready');
-  await loadState();
-  refreshVendorDL();
+async function startApp(){
+  await loadCloudState();
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app-shell').style.display='block';
+  document.getElementById('auth-user-email').textContent=currentUser.email||'';
   refreshAll();
   subscribeRealtime();
 }
-sb.auth.onAuthStateChange((event,session)=>{
-  if(session && session.user){
-    bootApp(session.user);
-  } else {
+
+async function initAuth(){
+  try{
+    const {data,error}=await db.auth.getSession();
+    if(error) throw error;
+    if(data.session){
+      currentUser=data.session.user;
+      try{await startApp();}
+      catch(error){
+        console.error('Cloud load failed:',error);
+        document.getElementById('auth-screen').style.display='flex';
+        showAuthError('Load failed: '+(error.message||'Unknown error')+'\n\nThe app connected to Supabase but could not load your cloud data.');
+      }
+    }else{
+      document.getElementById('auth-screen').style.display='flex';
+    }
+  }catch(error){
+    console.error('Auth initialization failed:',error);
+    document.getElementById('auth-screen').style.display='flex';
+    showAuthError('Load failed: '+(error.message||'Unknown error')+'\n\nCheck that the Supabase project is running.');
+  }
+}
+
+db.auth.onAuthStateChange(async(event,session)=>{
+  if(event==='SIGNED_OUT'){
     currentUser=null;
-    document.getElementById('app-root').classList.remove('ready');
-    document.getElementById('auth-screen').classList.remove('hidden');
   }
 });
+let editingId=null, payBillId=null;
  
 // ── Nav ──
 function nav(id,el){
@@ -680,17 +725,10 @@ function nav(id,el){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
   el.classList.add('active');
-  if(window.innerWidth<=900) toggleSidebar(false);
   const titles={dashboard:'Dashboard',entry:'Add New Bill',register:'Expense Register',vendors:'Vendor Summary',monthly:'Monthly Report',schedule:'Payment Schedule',summary:'Bill Summary Report',regLog:'Register Log Report',settings:'Manage Vendors'};
   document.getElementById('page-title').textContent=titles[id]||id;
   refreshAll();
 }
-function toggleSidebar(force){
-  const isOpen=document.body.classList.contains('sidebar-open');
-  const open=typeof force==='boolean'?force:!isOpen;
-  document.body.classList.toggle('sidebar-open',open);
-}
-window.addEventListener('resize',()=>{ if(window.innerWidth>900) document.body.classList.remove('sidebar-open'); if(document.getElementById('panel-dashboard')?.classList.contains('active')) renderDashboard(); });
  
 // ── Date ──
 document.getElementById('top-date').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
@@ -769,9 +807,8 @@ function saveBill(){
     return;
   }
   const gst=parseFloat(document.getElementById('f-gst').value)||0;
-  const total=amount+gst;
-  const paid=Math.min(parseFloat(document.getElementById('f-paid').value)||0, total);
-  const balance=Math.max(0,total-paid);
+  const paid=parseFloat(document.getElementById('f-paid').value)||0;
+  const total=amount+gst, balance=Math.max(0,total-paid);
   const status=paid<=0?'Pending':paid>=total?'Paid':'Partially Paid';
   const existing=editingId?bills.find(x=>x.id===editingId):null;
   const bill={
@@ -794,9 +831,9 @@ function saveBill(){
   } else {
     bills.push(bill);
   }
+  saveBills(bills);
   // Auto-add vendor to list
-  if(vendor && !vendors.includes(vendor)){vendors.push(vendor);}
-  persist();
+  if(vendor && !vendors.includes(vendor)){vendors.push(vendor);saveVendors(vendors);}
   document.getElementById('form-alert').innerHTML='';
   const wasEdit=!!editingId;
   clearForm();
@@ -807,10 +844,10 @@ function saveBill(){
 // ── Vendor autocomplete ──
 function refreshVendorDL(){
   const dl=document.getElementById('vendor-dl');
-  dl.innerHTML=vendors.map(v=>`<option value="${esc(v)}">`).join('');
+  dl.innerHTML=vendors.map(v=>`<option value="${v}">`).join('');
   // chips
   const chips=document.getElementById('vendor-chips');
-  if(chips) chips.innerHTML=vendors.slice(0,6).map((v,i)=>`<span class="chip" data-v="${esc(v)}" onclick="document.getElementById('f-vendor').value=this.dataset.v">${esc(v)}</span>`).join('');
+  if(chips) chips.innerHTML=vendors.slice(0,6).map(v=>`<span class="chip" onclick="document.getElementById('f-vendor').value='${v}'">${v}</span>`).join('');
 }
  
 // ── Dashboard ──
@@ -852,18 +889,15 @@ function renderDashboard(){
   const colors=['#1B4F8A','#2E75B6','#0F766E','#1A5C38','#6D28D9','#B45309','#991B1B','#374151','#0E7490'];
   document.getElementById('cat-chart').innerHTML=cats.length?cats.map(([c,v],i)=>`
     <div class="bar-row">
-      <div class="bar-label">${esc(c)}</div>
+      <div class="bar-label">${c}</div>
       <div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxAmt*100)}%;background:${colors[i%colors.length]}"></div></div>
       <div class="bar-amt">${INR0(v)}</div>
     </div>`).join(''):'<div class="empty"><div class="icon">📊</div><p>No data yet</p></div>';
  
   // Pie
-  const pc=document.getElementById('pie-c');
-  const pcWrap=pc.parentElement;
-  const pieSize=Math.max(120, Math.min(260, pcWrap.clientWidth));
-  pc.width=pieSize; pc.height=pieSize;
-  const ctx=pc.getContext('2d');
-  ctx.clearRect(0,0,pieSize,pieSize);
+  const cv=document.getElementById('pie-c');
+  const ctx=cv.getContext('2d');
+  ctx.clearRect(0,0,140,140);
   const counts=[paidC,partial,pending];
   const pcols=['#1A5C38','#B45309','#991B1B'];
   const plbls=['Paid','Partial','Pending'];
@@ -898,12 +932,8 @@ function renderDashboard(){
   });
   const mKeys=Object.keys(mMap).sort().slice(-10);
   const tc=document.getElementById('trend-c');
-  const trendWrap=tc.parentElement;
-  const minTrendWidth=Math.max(360, mKeys.length*60 + 100);
-  const trendWidth=Math.max(trendWrap.clientWidth, minTrendWidth);
-  tc.width=trendWidth; tc.height=140;
   const tctx=tc.getContext('2d');
-  tctx.clearRect(0,0,trendWidth,140);
+  tctx.clearRect(0,0,900,120);
   if(mKeys.length){
     const maxV=Math.max(...mKeys.map(k=>Math.max(mMap[k].b,mMap[k].p)),1);
     const cw=Math.min(90,880/mKeys.length);
@@ -945,10 +975,10 @@ function renderReg(){
     return`<tr>
       <td style="color:var(--muted);font-size:12px">${i+1}</td>
       <td style="white-space:nowrap">${fmtD(b.date)}</td>
-      <td><strong>${esc(b.vendor)}</strong></td>
-      <td>${esc(b.category)||'—'}</td>
-      <td>${esc(b.subcat)||'—'}</td>
-      <td style="font-family:monospace;font-size:12px">${esc(b.billno)}</td>
+      <td><strong>${b.vendor}</strong></td>
+      <td>${b.category||'—'}</td>
+      <td>${b.subcat||'—'}</td>
+      <td style="font-family:monospace;font-size:12px">${b.billno}</td>
       <td style="white-space:nowrap">${fmtD(b.billdate)}</td>
       <td>${INR(b.amount)}</td>
       <td>${INR(b.gst)}</td>
@@ -958,10 +988,10 @@ function renderReg(){
       <td><span class="badge ${statusBadge}">${b.status}</span>${over?'<br><span class="badge badge-overdue" style="margin-top:3px">OVERDUE</span>':''}</td>
       <td style="white-space:nowrap">${fmtD(b.paydate)}</td>
       <td>${b.paymode||'—'}</td>
-      <td style="font-family:monospace;font-size:12px">${esc(b.utr)||'—'}</td>
+      <td style="font-family:monospace;font-size:12px">${b.utr||'—'}</td>
       <td style="white-space:nowrap">${fmtD(b.duedate)}</td>
       <td style="text-align:center;color:var(--muted)">${b.balance>0&&dBill!=null?dBill+'d':'—'}</td>
-      <td style="max-width:180px;white-space:normal" title="${esc(b.remarks)}">${esc(b.remarks)||'—'}</td>
+      <td style="max-width:180px;white-space:normal" title="${(b.remarks||'').replace(/"/g,'&quot;')}">${b.remarks||'—'}</td>
       <td style="white-space:nowrap">
         <button class="btn btn-ghost btn-sm" style="padding:5px 8px" onclick="editBill(${b.id})" title="Edit bill">✏️</button>
         ${b.balance>0?`<button class="btn btn-success btn-sm" style="padding:5px 8px" onclick="openPayModal(${b.id})" title="Record payment">💳</button>`:''}
@@ -976,7 +1006,7 @@ function renderReg(){
  
 function delBill(id){
   if(!confirm('Delete this bill? This cannot be undone.'))return;
-  bills=bills.filter(b=>b.id!==id);persist();toast('Bill deleted','error');refreshAll();
+  bills=bills.filter(b=>b.id!==id);saveBills(bills);toast('Bill deleted','error');refreshAll();
 }
  
 // ── Vendors ──
@@ -992,7 +1022,7 @@ function renderVendors(){
   document.getElementById('ven-body').innerHTML=rows.length?rows.map(([v,d])=>{
     const pct=d.total?Math.round(d.paid/d.total*100):0;
     return`<tr>
-      <td><strong>${esc(v)}</strong></td>
+      <td><strong>${v}</strong></td>
       <td style="text-align:center">${d.n}</td>
       <td class="amt-blue">${INR(d.total)}</td>
       <td class="amt-green">${INR(d.paid)}</td>
@@ -1044,8 +1074,8 @@ function renderSchedule(){
     }
     return`<tr style="${rowStyle}">
       <td><strong>${fmtD(b.duedate)}</strong></td>
-      <td>${esc(b.vendor)}</td>
-      <td style="font-family:monospace;font-size:12px">${esc(b.billno)}</td>
+      <td>${b.vendor}</td>
+      <td style="font-family:monospace;font-size:12px">${b.billno}</td>
       <td class="amt-blue">${INR(b.total)}</td>
       <td class="amt-red">${INR(b.balance)}</td>
       <td style="text-align:center;font-weight:600">${days!=null?Math.abs(days)+'d':'—'}</td>
@@ -1064,7 +1094,7 @@ function markPaid(id){
   b.paid=b.total;b.balance=0;b.status='Paid';b.paydate=b.paydate||todayStr();
   if(!b.payments)b.payments=[];
   if(settled>0)b.payments.push({amount:settled,date:b.paydate,mode:b.paymode||'',utr:b.utr||'',note:'Full settlement'});
-  persist();toast('Marked as Paid!');refreshAll();
+  saveBills(bills);toast('Marked as Paid!');refreshAll();
 }
  
 // ── Record Payment (Pay Payable) ──
@@ -1100,7 +1130,7 @@ function submitPayment(){
   b.paydate=date; if(mode)b.paymode=mode; if(utr)b.utr=utr;
   if(!b.payments)b.payments=[];
   b.payments.push({amount:amt,date,mode,utr});
-  persist();
+  saveBills(bills);
   closePayModal();
   toast('Payment recorded!');
   refreshAll();
@@ -1112,21 +1142,20 @@ function addVendor(){
   const v=inp.value.trim();
   if(!v){toast('Enter a vendor name','error');return;}
   if(vendors.includes(v)){toast('Vendor already exists','error');return;}
-  vendors.push(v);persist();inp.value='';
+  vendors.push(v);saveVendors(vendors);inp.value='';
   toast('Vendor added!');renderSettings();refreshVendorDL();
 }
  
 function removeVendor(v){
-  if(!confirm(`Remove "${v}" from the vendor list? Existing bills for this vendor are not affected.`))return;
-  vendors=vendors.filter(x=>x!==v);persist();renderSettings();refreshVendorDL();toast('Vendor removed','error');
+  vendors=vendors.filter(x=>x!==v);saveVendors(vendors);renderSettings();refreshVendorDL();toast('Vendor removed','error');
 }
  
 function renderSettings(){
   document.getElementById('vendor-list-display').innerHTML=vendors.length?`
     <div style="display:flex;flex-wrap:wrap;gap:8px">
       ${vendors.map(v=>`<div style="display:flex;align-items:center;gap:8px;background:var(--blue4);border:1px solid var(--blue3);border-radius:8px;padding:8px 12px">
-        <span style="font-weight:500">${esc(v)}</span>
-        <button class="btn btn-danger btn-sm" style="padding:2px 8px" data-v="${esc(v)}" onclick="removeVendor(this.dataset.v)">✕</button>
+        <span style="font-weight:500">${v}</span>
+        <button class="btn btn-danger btn-sm" style="padding:2px 8px" onclick="removeVendor('${v.replace(/'/g,"\\'")}')">✕</button>
       </div>`).join('')}
     </div>`:'<div class="alert alert-info">ℹ️ No vendors added yet. Type a name above and click Add Vendor.</div>';
 }
@@ -1161,14 +1190,14 @@ function renderSummary(){
   bills.forEach(b=>{const c=b.category||'Other';if(!catMap[c])catMap[c]={n:0,total:0,paid:0};catMap[c].n++;catMap[c].total+=b.total;catMap[c].paid+=b.paid;});
   const catRows=Object.entries(catMap).sort((a,b)=>b[1].total-a[1].total);
   document.getElementById('summary-cat-body').innerHTML=catRows.length?catRows.map(([c,d])=>`
-    <tr><td><strong>${esc(c)}</strong></td><td style="text-align:center">${d.n}</td><td class="amt-blue">${INR(d.total)}</td><td class="amt-green">${INR(d.paid)}</td><td class="${d.total-d.paid>0?'amt-red':''}">${INR(d.total-d.paid)}</td></tr>`).join('')
+    <tr><td><strong>${c}</strong></td><td style="text-align:center">${d.n}</td><td class="amt-blue">${INR(d.total)}</td><td class="amt-green">${INR(d.paid)}</td><td class="${d.total-d.paid>0?'amt-red':''}">${INR(d.total-d.paid)}</td></tr>`).join('')
     :'<tr><td colspan="5"><div class="empty"><div class="icon">🧾</div><p>No data yet</p></div></td></tr>';
  
   const venMap={};
   bills.forEach(b=>{if(!b.vendor)return;if(!venMap[b.vendor])venMap[b.vendor]={total:0,paid:0};venMap[b.vendor].total+=b.total;venMap[b.vendor].paid+=b.paid;});
   const payRows=Object.entries(venMap).map(([v,d])=>[v,d,d.total-d.paid]).filter(r=>r[2]>0).sort((a,b)=>b[2]-a[2]);
   document.getElementById('summary-payable-body').innerHTML=payRows.length?payRows.map(([v,d,due])=>`
-    <tr><td><strong>${esc(v)}</strong></td><td class="amt-blue">${INR(d.total)}</td><td class="amt-green">${INR(d.paid)}</td><td class="amt-red">${INR(due)}</td></tr>`).join('')
+    <tr><td><strong>${v}</strong></td><td class="amt-blue">${INR(d.total)}</td><td class="amt-green">${INR(d.paid)}</td><td class="amt-red">${INR(due)}</td></tr>`).join('')
     :'<tr><td colspan="4"><div class="empty"><div class="icon">🎉</div><p>No payables outstanding</p></div></td></tr>';
 }
  
@@ -1200,10 +1229,10 @@ function renderRegLog(){
     return`<tr>
       <td style="color:var(--muted);font-size:12px">${i+1}</td>
       <td style="white-space:nowrap">${fmtD(b.date)}</td>
-      <td><strong>${esc(b.vendor)}</strong></td>
-      <td>${esc(b.category)||'—'}</td>
-      <td>${esc(b.subcat)||'—'}</td>
-      <td style="font-family:monospace;font-size:12px">${esc(b.billno)}</td>
+      <td><strong>${b.vendor}</strong></td>
+      <td>${b.category||'—'}</td>
+      <td>${b.subcat||'—'}</td>
+      <td style="font-family:monospace;font-size:12px">${b.billno}</td>
       <td style="white-space:nowrap">${fmtD(b.billdate)}</td>
       <td>${INR(b.amount)}</td>
       <td>${INR(b.gst)}</td>
@@ -1213,17 +1242,17 @@ function renderRegLog(){
       <td><span class="badge ${statusBadge}">${b.status}</span></td>
       <td style="white-space:nowrap">${fmtD(b.paydate)}</td>
       <td>${b.paymode||'—'}</td>
-      <td style="font-family:monospace;font-size:12px">${esc(b.utr)||'—'}</td>
+      <td style="font-family:monospace;font-size:12px">${b.utr||'—'}</td>
       <td style="white-space:nowrap">${fmtD(b.duedate)}</td>
-      <td style="max-width:180px;white-space:normal">${esc(b.remarks)||'—'}</td>
+      <td style="max-width:180px;white-space:normal">${b.remarks||'—'}</td>
     </tr>`;}).join(''):`<tr><td colspan="19"><div class="empty"><div class="icon">📜</div><p>No bills logged yet</p></div></td></tr>`;
 }
  
 function refreshAll(){
   renderDashboard();renderReg();renderVendors();renderMonthly();renderSchedule();renderSummary();renderRegLog();renderSettings();refreshVendorDL();
 }
-// Note: initial data load + first render happens in bootApp(), triggered by
-// the Supabase auth state listener once the user is signed in.
+ 
+initAuth();
 </script>
 </body>
 </html>
