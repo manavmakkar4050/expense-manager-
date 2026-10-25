@@ -17,32 +17,46 @@
 body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;display:flex;min-height:100vh}
  
 /* ── Sidebar ── */
-.sidebar{width:var(--sidebar);background:var(--navy);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:width .2s}
-.logo{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
-.logo h2{color:#fff;font-size:15px;font-weight:600;line-height:1.3}
-.logo p{color:var(--blue3);font-size:11px;margin-top:4px}
-.nav{flex:1;padding:12px 0;overflow-y:auto}
-.nav-item{display:flex;align-items:center;gap:12px;padding:11px 20px;cursor:pointer;color:rgba(255,255,255,.6);font-size:13px;font-weight:500;transition:all .15s;border-left:3px solid transparent}
-.nav-item:hover{background:rgba(255,255,255,.05);color:#fff}
+:root{--sidebar-w:220px;--sidebar-collapsed-w:54px}
+.sidebar{width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:200;transition:width .22s ease,transform .22s ease;overflow:hidden}
+.sidebar.collapsed{width:var(--sidebar-collapsed-w)}
+.sidebar.hidden-full{width:0;min-width:0;overflow:hidden}
+/* Logo row */
+.logo{display:flex;align-items:center;height:60px;border-bottom:1px solid rgba(255,255,255,.08);white-space:nowrap;overflow:hidden;flex-shrink:0}
+.sidebar-toggle-btn{width:var(--sidebar-collapsed-w);min-width:var(--sidebar-collapsed-w);height:60px;display:flex;align-items:center;justify-content:center;background:none;border:none;border-right:1px solid rgba(255,255,255,.08);cursor:pointer;color:rgba(255,255,255,.7);flex-shrink:0;transition:background .15s}
+.sidebar-toggle-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.logo-text{padding:0 14px;overflow:hidden}
+.logo-text h2{color:#fff;font-size:14px;font-weight:600;line-height:1.3;white-space:nowrap}
+.logo-text p{color:var(--blue3);font-size:10px;margin-top:2px;white-space:nowrap}
+/* Nav */
+.nav{flex:1;padding:10px 0;overflow-y:auto;overflow-x:hidden}
+.nav-item{display:flex;align-items:center;height:42px;cursor:pointer;color:rgba(255,255,255,.6);font-size:13px;font-weight:500;transition:all .15s;border-left:3px solid transparent;white-space:nowrap;overflow:hidden}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
 .nav-item.active{background:rgba(46,117,182,.25);color:#fff;border-left-color:var(--blue2)}
-.nav-item .icon{font-size:16px;width:20px;text-align:center}
-.nav-section{padding:16px 20px 6px;font-size:10px;font-weight:600;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase}
-.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:rgba(255,255,255,.35)}
- 
+.nav-item .icon{width:var(--sidebar-collapsed-w);min-width:var(--sidebar-collapsed-w);font-size:16px;text-align:center;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-left:-3px}
+.nav-item .nav-label{font-size:13px;padding-right:16px;opacity:1;transition:opacity .15s}
+.sidebar.collapsed .nav-label{opacity:0;pointer-events:none}
+.nav-section{padding:14px 0 5px;padding-left:var(--sidebar-collapsed-w);font-size:10px;font-weight:600;color:rgba(255,255,255,.28);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;overflow:hidden}
+.sidebar.collapsed .nav-section{visibility:hidden}
+.sidebar-footer{padding:12px 0;padding-left:calc(var(--sidebar-collapsed-w) - 3px);border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:rgba(255,255,255,.3);white-space:nowrap;overflow:hidden}
 /* ── Main ── */
-.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
-.topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh;transition:margin-left .22s ease}
+.main.sidebar-collapsed{margin-left:var(--sidebar-collapsed-w)}
+.main.sidebar-hidden{margin-left:0}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 20px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .topbar h1{font-size:17px;font-weight:600;color:var(--text)}
-.topbar .meta{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:16px}
+.topbar .meta{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:12px}
 .topbar .badge-count{background:var(--red2);color:var(--red);border-radius:20px;padding:2px 8px;font-size:11px;font-weight:600}
 .content{padding:24px 28px;flex:1}
- 
+.tb-icon-btn{background:none;border:1.5px solid var(--border);border-radius:7px;cursor:pointer;color:var(--muted);padding:5px 10px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;font-family:inherit;transition:all .15s}
+.tb-icon-btn:hover{border-color:var(--blue2);color:var(--blue);background:var(--blue4)}
+
 /* ── Cards ── */
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
 .card-header{padding:16px 20px 0;display:flex;align-items:center;justify-content:space-between}
 .card-title{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 .card-body{padding:16px 20px}
- 
+
 /* ── KPI Grid ── */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px}
 .kpi-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);position:relative;overflow:hidden}
@@ -216,6 +230,54 @@ input,select,textarea{transition:border .15s ease,box-shadow .15s ease}
   .auth-email{display:none}
 }
 
+
+/* ── Sidebar overlay (mobile) ── */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(13,27,42,.55);z-index:150;touch-action:none}
+.sidebar-overlay.show{display:block}
+/* Mobile topbar hamburger — hidden on desktop */
+.mobile-menu-btn{display:none;background:none;border:1.5px solid var(--border);border-radius:7px;padding:5px 7px;cursor:pointer;color:var(--muted);align-items:center;justify-content:center}
+.mobile-menu-btn:hover{border-color:var(--blue2);color:var(--blue);background:var(--blue4)}
+/* ── Responsive ── */
+@media(max-width:768px){
+  .mobile-menu-btn{display:flex}
+  .sidebar-toggle-btn{display:none}
+  :root{--sidebar:240px;--sidebar-collapsed:0px}
+  .sidebar{transform:translateX(-100%);width:var(--sidebar)!important;transition:transform .25s ease}
+  .sidebar.mobile-open{transform:translateX(0)}
+  .sidebar.collapsed{transform:translateX(-100%)}
+  .sidebar.hidden-full{transform:translateX(-100%)}
+  .main{margin-left:0!important}
+  .main.sidebar-collapsed{margin-left:0!important}
+  .main.sidebar-hidden{margin-left:0!important}
+  .content{padding:14px 12px}
+  .topbar{padding:0 12px}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)!important;gap:10px}
+  .kpi-value{font-size:18px}
+  .chart-grid{grid-template-columns:1fr!important}
+  .form-grid{grid-template-columns:1fr!important}
+  .fg.full{grid-column:auto}
+  .search-bar{flex-direction:column;align-items:stretch}
+  .search-input{width:100%!important}
+  table{font-size:12px}
+  thead th,tbody td{padding:7px 8px}
+  .tbl-wrap{border-radius:6px}
+  .modal-box{padding:16px;width:calc(100vw - 20px)}
+  .fullscreen-btn{display:none}
+  .logo-text h2{font-size:13px}
+}
+/* ── Drill-down panel ── */
+.drill-panel{display:none;margin-top:16px;animation:panelIn .25s ease forwards}
+.drill-panel.open{display:block}
+.drill-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--navy);color:#fff;border-radius:10px 10px 0 0}
+.drill-header h3{font-size:14px;font-weight:600;margin:0}
+.drill-close{background:none;border:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:18px;line-height:1;padding:2px 6px;border-radius:4px}
+.drill-close:hover{color:#fff;background:rgba(255,255,255,.15)}
+.month-section{margin-bottom:14px}
+.month-section-title{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding:8px 0 6px;border-bottom:1px solid var(--border);margin-bottom:8px}
+/* ── Clickable table rows ── */
+.row-clickable{cursor:pointer}
+.row-clickable:hover td{background:var(--blue4)!important}
+.drill-icon{font-size:10px;color:var(--blue2);margin-left:4px;vertical-align:middle}
 </style>
 </head>
 <body>
@@ -242,35 +304,53 @@ input,select,textarea{transition:border .15s ease,box-shadow .15s ease}
 
 <div id="app-shell">
 <!-- SIDEBAR -->
-<div class="sidebar">
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+<div class="sidebar collapsed" id="sidebar">
+  <!-- Logo row with toggle button -->
   <div class="logo">
-    <h2>🏭 Factory Tracker</h2>
-    <p>Construction Expense Manager</p>
+    <button class="sidebar-toggle-btn" id="sidebar-toggle" onclick="toggleSidebar()" title="Toggle menu" aria-label="Toggle menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="2" y1="5" x2="18" y2="5"/><line x1="2" y1="10" x2="18" y2="10"/><line x1="2" y1="15" x2="18" y2="15"/>
+      </svg>
+    </button>
+    <div class="logo-text">
+      <h2>🏭 Factory Tracker</h2>
+      <p>Construction Expense Manager</p>
+    </div>
   </div>
   <div class="nav">
     <div class="nav-section">Main</div>
-    <div class="nav-item active" onclick="nav('dashboard',this)"><span class="icon">📊</span> Dashboard</div>
-    <div class="nav-item" onclick="nav('entry',this)"><span class="icon">➕</span> Add New Bill</div>
+    <div class="nav-item active" onclick="nav('dashboard',this)"><span class="icon">📊</span><span class="nav-label">Dashboard</span></div>
+    <div class="nav-item" onclick="nav('entry',this)"><span class="icon">➕</span><span class="nav-label">Add New Bill</span></div>
     <div class="nav-section">Reports</div>
-    <div class="nav-item" onclick="nav('register',this)"><span class="icon">📋</span> Expense Register</div>
-    <div class="nav-item" onclick="nav('vendors',this)"><span class="icon">🏢</span> Vendor Summary</div>
-    <div class="nav-item" onclick="nav('monthly',this)"><span class="icon">📅</span> Monthly Report</div>
-    <div class="nav-item" onclick="nav('schedule',this)"><span class="icon">⏰</span> Payment Schedule</div>
-    <div class="nav-item" onclick="nav('summary',this)"><span class="icon">🧾</span> Bill Summary Report</div>
-    <div class="nav-item" onclick="nav('regLog',this)"><span class="icon">📜</span> Register Log Report</div>
+    <div class="nav-item" onclick="nav('register',this)"><span class="icon">📋</span><span class="nav-label">Expense Register</span></div>
+    <div class="nav-item" onclick="nav('vendors',this)"><span class="icon">🏢</span><span class="nav-label">Vendor Summary</span></div>
+    <div class="nav-item" onclick="nav('monthly',this)"><span class="icon">📅</span><span class="nav-label">Monthly Report</span></div>
+    <div class="nav-item" onclick="nav('schedule',this)"><span class="icon">⏰</span><span class="nav-label">Payment Schedule</span></div>
+    <div class="nav-item" onclick="nav('summary',this)"><span class="icon">🧾</span><span class="nav-label">Bill Summary Report</span></div>
+    <div class="nav-item" onclick="nav('regLog',this)"><span class="icon">📜</span><span class="nav-label">Register Log Report</span></div>
     <div class="nav-section">Settings</div>
-    <div class="nav-item" onclick="nav('settings',this)"><span class="icon">⚙️</span> Manage Vendors</div>
+    <div class="nav-item" onclick="nav('settings',this)"><span class="icon">⚙️</span><span class="nav-label">Manage Vendors</span></div>
   </div>
-  <div class="sidebar-footer" id="sf">0 bills · ₹0 total</div>
+  <div class="sidebar-footer" id="sf">0 bills</div>
 </div>
  
 <!-- MAIN -->
-<div class="main">
+<div class="main sidebar-collapsed" id="main">
   <div class="topbar">
-    <h1 id="page-title">Dashboard</h1>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()" title="Open menu" aria-label="Open menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="2" y1="5" x2="18" y2="5"/><line x1="2" y1="10" x2="18" y2="10"/><line x1="2" y1="15" x2="18" y2="15"/></svg>
+      </button>
+      <h1 id="page-title">Dashboard</h1>
+    </div>
     <div class="meta">
       <span id="top-date"></span>
       <span class="badge-count" id="overdue-badge" style="display:none">0 Overdue</span>
+      <button class="tb-icon-btn fullscreen-btn" id="fullscreen-btn" onclick="toggleFullscreen()" title="Full screen">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6V1h5M15 6V1h-5M1 10v5h5M15 10v5h-5"/></svg>
+        <span id="fullscreen-label">Full Screen</span>
+      </button>
       <span class="auth-user"><span class="auth-email" id="auth-user-email"></span><button class="btn btn-ghost btn-sm" onclick="signOut()">Sign Out</button></span>
     </div>
   </div>
@@ -381,13 +461,24 @@ input,select,textarea{transition:border .15s ease,box-shadow .15s ease}
     <!-- VENDORS -->
     <div class="panel" id="panel-vendors">
       <div class="section-title">Vendor Summary</div>
-      <div class="section-sub">Auto-calculated from all bills</div>
+      <div class="section-sub">Click any vendor row to see all bills for that vendor, broken down by month</div>
       <div class="card">
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>Vendor</th><th>Bills</th><th>Total Billed (₹)</th><th>Paid (₹)</th><th>Outstanding (₹)</th><th>Last Payment</th><th>% Collected</th></tr></thead>
+            <thead><tr><th>Vendor</th><th>Bills</th><th>Total Billed (₹)</th><th>Paid (₹)</th><th>Outstanding (₹)</th><th>Last Payment</th><th>% Collected</th><th></th></tr></thead>
             <tbody id="ven-body"></tbody>
           </table>
+        </div>
+      </div>
+      <!-- Vendor drill-down -->
+      <div class="drill-panel" id="vendor-drill">
+        <div class="drill-header">
+          <h3 id="vendor-drill-title">Bills for Vendor</h3>
+          <button class="drill-close" onclick="closeVendorDrill()">✕</button>
+        </div>
+        <div class="card" style="border-radius:0 0 10px 10px;border-top:none">
+          <div id="vendor-drill-months" style="padding:16px"></div>
+          <div class="stats-row" style="padding:12px 16px;border-top:1px solid var(--border)" id="vendor-drill-stats"></div>
         </div>
       </div>
     </div>
@@ -395,13 +486,29 @@ input,select,textarea{transition:border .15s ease,box-shadow .15s ease}
     <!-- MONTHLY -->
     <div class="panel" id="panel-monthly">
       <div class="section-title">Monthly Report</div>
-      <div class="section-sub">Expense breakdown by month</div>
+      <div class="section-sub">Click any month row to see all bills for that month</div>
       <div class="card">
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>Month</th><th>Year</th><th>Bills (₹)</th><th>Payments (₹)</th><th>Outstanding (₹)</th><th>No. of Bills</th><th>Vendors</th></tr></thead>
+            <thead><tr><th>Month</th><th>Year</th><th>Bills (₹)</th><th>Payments (₹)</th><th>Outstanding (₹)</th><th>No. of Bills</th><th>Vendors</th><th></th></tr></thead>
             <tbody id="mon-body"></tbody>
           </table>
+        </div>
+      </div>
+      <!-- Monthly drill-down -->
+      <div class="drill-panel" id="monthly-drill">
+        <div class="drill-header">
+          <h3 id="monthly-drill-title">Bills for Month</h3>
+          <button class="drill-close" onclick="closeMonthDrill()">✕</button>
+        </div>
+        <div class="card" style="border-radius:0 0 10px 10px;border-top:none">
+          <div class="tbl-wrap" style="border:none;border-radius:0">
+            <table>
+              <thead><tr><th>Date</th><th>Vendor</th><th>Category</th><th>Bill No.</th><th>Total (₹)</th><th>Paid (₹)</th><th>Balance (₹)</th><th>Status</th><th>Due Date</th><th>Remarks</th></tr></thead>
+              <tbody id="monthly-drill-body"></tbody>
+            </table>
+          </div>
+          <div class="stats-row" style="padding:12px 16px;border-top:1px solid var(--border)" id="monthly-drill-stats"></div>
         </div>
       </div>
     </div>
@@ -879,7 +986,7 @@ function renderDashboard(){
   `;
  
   // Sidebar footer
-  document.getElementById('sf').textContent=`${bills.length} bills · ${INR0(tot)}`;
+  document.getElementById('sf').textContent=`${bills.length} bills`;
  
   // Category chart
   const catMap={};
@@ -958,52 +1065,75 @@ function renderDashboard(){
 }
  
 // ── Register ──
+// Expense Register: shows each PAYMENT as a separate row, sorted newest-payment first.
+// Bills with no payment show once as their own row.
 function renderReg(){
   const q=(document.getElementById('s-q').value||'').toLowerCase();
   const st=document.getElementById('s-status').value;
   const cat=document.getElementById('s-cat').value;
   const now=todayStr();
-  let rows=bills.filter(b=>{
+  const filteredBills=bills.filter(b=>{
     const mq=!q||(b.vendor||'').toLowerCase().includes(q)||(b.billno||'').toLowerCase().includes(q)||(b.category||'').toLowerCase().includes(q)||(b.remarks||'').toLowerCase().includes(q);
     return mq&&(!st||b.status===st)&&(!cat||b.category===cat);
-  }).sort((a,b)=>b.date<a.date?-1:1);
- 
-  document.getElementById('reg-body').innerHTML=rows.length?rows.map((b,i)=>{
+  });
+  // Build flat rows: one row per payment entry; unpaid bills get one row with no payment details
+  const flatRows=[];
+  filteredBills.forEach(b=>{
+    const pmts=Array.isArray(b.payments)&&b.payments.length>0?b.payments:null;
+    if(pmts){
+      pmts.forEach((pmt,pi)=>{
+        flatRows.push({bill:b,pmt,pmtIndex:pi,pmtTotal:pmts.length});
+      });
+    } else {
+      flatRows.push({bill:b,pmt:null,pmtIndex:0,pmtTotal:0});
+    }
+  });
+  // Sort by payment date desc, then by bill date desc for unpaid
+  flatRows.sort((a,b)=>{
+    const dateA=a.pmt?a.pmt.date:a.bill.date;
+    const dateB=b.pmt?b.pmt.date:b.bill.date;
+    if(dateB>dateA)return 1;
+    if(dateB<dateA)return -1;
+    return 0;
+  });
+  const statusBadge=s=>s==='Paid'?'badge-paid':s==='Partially Paid'?'badge-partial':'badge-pending';
+  let rowNum=0;
+  document.getElementById('reg-body').innerHTML=flatRows.length?flatRows.map(({bill:b,pmt,pmtIndex,pmtTotal})=>{
     const over=b.duedate&&b.duedate<now&&b.status!=='Paid';
     const dBill=b.billdate?Math.floor((new Date(now)-new Date(b.billdate))/86400000):null;
-    const statusBadge=b.status==='Paid'?'badge-paid':b.status==='Partially Paid'?'badge-partial':'badge-pending';
-    return`<tr>
-      <td style="color:var(--muted);font-size:12px">${i+1}</td>
-      <td style="white-space:nowrap">${fmtD(b.date)}</td>
-      <td><strong>${b.vendor}</strong></td>
-      <td>${b.category||'—'}</td>
-      <td>${b.subcat||'—'}</td>
+    rowNum++;
+    const isPaymentRow=pmt!==null;
+    const rowStyle=isPaymentRow?'background:#F0FDF4':'';
+    return`<tr style="${rowStyle}">
+      <td style="color:var(--muted);font-size:12px">${rowNum}</td>
+      <td style="white-space:nowrap">${isPaymentRow?`<span style="color:var(--green);font-size:11px;font-weight:600">&#x1F4B3; ${fmtD(pmt.date)}</span>`:fmtD(b.date)}</td>
+      <td><strong>${b.vendor}</strong>${pmtTotal>1&&isPaymentRow?`<br><span style="font-size:10px;color:var(--muted)">Payment ${pmtIndex+1}/${pmtTotal}</span>`:''}</td>
+      <td>${b.category||'&#x2014;'}</td>
+      <td>${b.subcat||'&#x2014;'}</td>
       <td style="font-family:monospace;font-size:12px">${b.billno}</td>
       <td style="white-space:nowrap">${fmtD(b.billdate)}</td>
       <td>${INR(b.amount)}</td>
       <td>${INR(b.gst)}</td>
       <td class="amt-blue">${INR(b.total)}</td>
-      <td class="amt-green">${INR(b.paid)}</td>
+      <td class="${isPaymentRow?'amt-green':b.paid>0?'amt-green':''}">${isPaymentRow?`<strong>${INR(pmt.amount)}</strong>`:INR(b.paid)}</td>
       <td class="${b.balance>0?'amt-red':''}">${INR(b.balance)}</td>
-      <td><span class="badge ${statusBadge}">${b.status}</span>${over?'<br><span class="badge badge-overdue" style="margin-top:3px">OVERDUE</span>':''}</td>
-      <td style="white-space:nowrap">${fmtD(b.paydate)}</td>
-      <td>${b.paymode||'—'}</td>
-      <td style="font-family:monospace;font-size:12px">${b.utr||'—'}</td>
+      <td><span class="badge ${statusBadge(b.status)}">${b.status}</span>${over?'<br><span class="badge badge-overdue" style="margin-top:3px">OVERDUE</span>':''}</td>
+      <td style="white-space:nowrap">${isPaymentRow?fmtD(pmt.date):fmtD(b.paydate)}</td>
+      <td>${isPaymentRow?(pmt.mode||'&#x2014;'):(b.paymode||'&#x2014;')}</td>
+      <td style="font-family:monospace;font-size:12px">${isPaymentRow?(pmt.utr||'&#x2014;'):(b.utr||'&#x2014;')}</td>
       <td style="white-space:nowrap">${fmtD(b.duedate)}</td>
-      <td style="text-align:center;color:var(--muted)">${b.balance>0&&dBill!=null?dBill+'d':'—'}</td>
-      <td style="max-width:180px;white-space:normal" title="${(b.remarks||'').replace(/"/g,'&quot;')}">${b.remarks||'—'}</td>
+      <td style="text-align:center;color:var(--muted)">${b.balance>0&&dBill!=null?dBill+'d':'&#x2014;'}</td>
+      <td style="max-width:180px;white-space:normal" title="${(b.remarks||'').replace(/"/g,'&quot;')}">${b.remarks||'&#x2014;'}</td>
       <td style="white-space:nowrap">
-        <button class="btn btn-ghost btn-sm" style="padding:5px 8px" onclick="editBill(${b.id})" title="Edit bill">✏️</button>
-        ${b.balance>0?`<button class="btn btn-success btn-sm" style="padding:5px 8px" onclick="openPayModal(${b.id})" title="Record payment">💳</button>`:''}
-        <button class="btn btn-danger btn-sm" style="padding:5px 8px" onclick="delBill(${b.id})" title="Delete bill">🗑</button>
+        ${(!isPaymentRow||pmtIndex===pmtTotal-1)?`<button class="btn btn-ghost btn-sm" style="padding:5px 8px" onclick="editBill(${b.id})" title="Edit bill">&#x270F;&#xFE0F;</button>`:''}
+        ${(b.balance>0&&(!isPaymentRow||pmtIndex===pmtTotal-1))?`<button class="btn btn-success btn-sm" style="padding:5px 8px" onclick="openPayModal(${b.id})" title="Record payment">&#x1F4B3;</button>`:''}
+        ${(!isPaymentRow||pmtIndex===pmtTotal-1)?`<button class="btn btn-danger btn-sm" style="padding:5px 8px" onclick="delBill(${b.id})" title="Delete bill">&#x1F5D1;</button>`:''}
       </td>
-    </tr>`;}).join(''):`<tr><td colspan="21"><div class="empty"><div class="icon">📭</div><p>No bills found. <a href="#" onclick="nav('entry',document.querySelectorAll('.nav-item')[1])" style="color:var(--blue)">Add your first bill →</a></p></div></td></tr>`;
- 
-  const totB=rows.reduce((s,b)=>s+b.total,0);
-  const totP=rows.reduce((s,b)=>s+b.paid,0);
-  document.getElementById('reg-stats').innerHTML=`<span class="stat">Showing <strong>${rows.length}</strong> bills</span><span class="stat">Total: <strong>${INR(totB)}</strong></span><span class="stat">Paid: <strong style="color:var(--green)">${INR(totP)}</strong></span><span class="stat">Balance: <strong style="color:var(--red)">${INR(totB-totP)}</strong></span>`;
+    </tr>`;}).join(''):`<tr><td colspan="21"><div class="empty"><div class="icon">&#x1F4ED;</div><p>No bills found. <a href="#" onclick="nav('entry',document.querySelectorAll('.nav-item')[1])" style="color:var(--blue)">Add your first bill &#x2192;</a></p></div></td></tr>`;
+  const totB=filteredBills.reduce((s,b)=>s+b.total,0);
+  const totP=filteredBills.reduce((s,b)=>s+b.paid,0);
+  document.getElementById('reg-stats').innerHTML=`<span class="stat">Showing <strong>${filteredBills.length}</strong> bills (<strong>${flatRows.length}</strong> payment entries)</span><span class="stat">Total: <strong>${INR(totB)}</strong></span><span class="stat">Paid: <strong style="color:var(--green)">${INR(totP)}</strong></span><span class="stat">Balance: <strong style="color:var(--red)">${INR(totB-totP)}</strong></span>`;
 }
- 
 function delBill(id){
   if(!confirm('Delete this bill? This cannot be undone.'))return;
   bills=bills.filter(b=>b.id!==id);saveBills(bills);toast('Bill deleted','error');refreshAll();
@@ -1021,8 +1151,8 @@ function renderVendors(){
   const rows=Object.entries(map).sort((a,b)=>b[1].total-a[1].total);
   document.getElementById('ven-body').innerHTML=rows.length?rows.map(([v,d])=>{
     const pct=d.total?Math.round(d.paid/d.total*100):0;
-    return`<tr>
-      <td><strong>${v}</strong></td>
+    return`<tr class="row-clickable" onclick="openVendorDrill('${v.replace(/'/g,"\'").replace(/\\/g,'\\\\')}')" title="Click to see all bills for ${v.replace(/'/g,"&apos;")}">
+      <td><strong>${v}</strong> <span class="drill-icon">▼</span></td>
       <td style="text-align:center">${d.n}</td>
       <td class="amt-blue">${INR(d.total)}</td>
       <td class="amt-green">${INR(d.paid)}</td>
@@ -1034,7 +1164,62 @@ function renderVendors(){
           <span style="font-weight:600;font-size:12px;color:${pct===100?'var(--green)':'var(--text)'}">${pct}%</span>
         </div>
       </td>
-    </tr>`;}).join(''):`<tr><td colspan="7"><div class="empty"><div class="icon">🏢</div><p>No vendor data yet</p></div></td></tr>`;
+      <td style="text-align:center;font-size:18px;color:var(--blue2)">›</td>
+    </tr>`;}).join(''):`<tr><td colspan="8"><div class="empty"><div class="icon">🏢</div><p>No vendor data yet</p></div></td></tr>`;
+  // close drill if re-render while open
+  const drill=document.getElementById('vendor-drill');
+  if(drill&&!drill.classList.contains('open'))return;
+}
+function openVendorDrill(vendor){
+  const vendorBills=bills.filter(b=>b.vendor===vendor).sort((a,b)=>a.date<b.date?-1:1);
+  // Group by month
+  const mMap={};
+  vendorBills.forEach(b=>{
+    if(!b.date)return;
+    const d=new Date(b.date),k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    if(!mMap[k])mMap[k]={label:MONTH_NAMES[d.getMonth()]+' '+d.getFullYear(),bills:[]};
+    mMap[k].bills.push(b);
+  });
+  const statusBadge=s=>s==='Paid'?'badge-paid':s==='Partially Paid'?'badge-partial':'badge-pending';
+  const mKeys=Object.keys(mMap).sort().reverse();
+  let html='';
+  mKeys.forEach(k=>{
+    const mb=mMap[k];
+    const mTotal=mb.bills.reduce((s,b)=>s+b.total,0);
+    const mPaid=mb.bills.reduce((s,b)=>s+b.paid,0);
+    html+=`<div class="month-section">
+      <div class="month-section-title">${mb.label} &nbsp;·&nbsp; ${mb.bills.length} bill${mb.bills.length>1?'s':''} &nbsp;·&nbsp; Total: ${INR(mTotal)} &nbsp;·&nbsp; Paid: ${INR(mPaid)} &nbsp;·&nbsp; Balance: <span class="${mTotal-mPaid>0?'amt-red':''}">${INR(mTotal-mPaid)}</span></div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Date</th><th>Bill No.</th><th>Category</th><th>Total (₹)</th><th>Paid (₹)</th><th>Balance (₹)</th><th>Status</th><th>Due Date</th><th>Remarks</th><th></th></tr></thead>
+        <tbody>${mb.bills.map(b=>`<tr>
+          <td style="white-space:nowrap">${fmtD(b.date)}</td>
+          <td style="font-family:monospace;font-size:12px">${b.billno}</td>
+          <td>${b.category||'—'}</td>
+          <td class="amt-blue">${INR(b.total)}</td>
+          <td class="amt-green">${INR(b.paid)}</td>
+          <td class="${b.balance>0?'amt-red':''}">${INR(b.balance)}</td>
+          <td><span class="badge ${statusBadge(b.status)}">${b.status}</span></td>
+          <td style="white-space:nowrap">${fmtD(b.duedate)}</td>
+          <td style="max-width:160px;white-space:normal">${b.remarks||'—'}</td>
+          <td style="white-space:nowrap">
+            <button class="btn btn-ghost btn-sm" style="padding:4px 8px" onclick="event.stopPropagation();editBill(${b.id})">✏️</button>
+            ${b.balance>0?`<button class="btn btn-success btn-sm" style="padding:4px 8px" onclick="event.stopPropagation();openPayModal(${b.id})">💳</button>`:''}
+          </td>
+        </tr>`).join('')}</tbody>
+      </table></div>
+    </div>`;
+  });
+  document.getElementById('vendor-drill-title').textContent=`📋 ${vendor} — All Bills`;
+  document.getElementById('vendor-drill-months').innerHTML=html||'<div class="empty"><p>No bills found for this vendor.</p></div>';
+  const totTotal=vendorBills.reduce((s,b)=>s+b.total,0);
+  const totPaid=vendorBills.reduce((s,b)=>s+b.paid,0);
+  document.getElementById('vendor-drill-stats').innerHTML=`<span class="stat">Total bills: <strong>${vendorBills.length}</strong></span><span class="stat">Total billed: <strong>${INR(totTotal)}</strong></span><span class="stat">Paid: <strong style="color:var(--green)">${INR(totPaid)}</strong></span><span class="stat">Balance: <strong style="color:var(--red)">${INR(totTotal-totPaid)}</strong></span>`;
+  const drill=document.getElementById('vendor-drill');
+  drill.classList.add('open');
+  setTimeout(()=>drill.scrollIntoView({behavior:'smooth',block:'start'}),50);
+}
+function closeVendorDrill(){
+  document.getElementById('vendor-drill').classList.remove('open');
 }
  
 // ── Monthly ──
@@ -1048,16 +1233,52 @@ function renderMonthly(){
   });
   const rows=Object.entries(map).sort().reverse();
   document.getElementById('mon-body').innerHTML=rows.length?rows.map(([k,d])=>`
-    <tr>
-      <td><strong>${MONTH_NAMES[d.mo]}</strong></td>
+    <tr class="row-clickable" onclick="openMonthDrill('${k}')" title="Click to see all bills for ${MONTH_NAMES[d.mo]} ${d.yr}">
+      <td><strong>${MONTH_NAMES[d.mo]}</strong> <span class="drill-icon">▼</span></td>
       <td>${d.yr}</td>
       <td class="amt-blue">${INR(d.bills)}</td>
       <td class="amt-green">${INR(d.paid)}</td>
       <td class="${d.bills-d.paid>0?'amt-red':''}">${INR(d.bills-d.paid)}</td>
       <td style="text-align:center">${d.count}</td>
       <td style="text-align:center">${d.vendors.size}</td>
+      <td style="text-align:center;font-size:18px;color:var(--blue2)">›</td>
     </tr>`)
-    .join(''):`<tr><td colspan="7"><div class="empty"><div class="icon">📅</div><p>No monthly data yet</p></div></td></tr>`;
+    .join(''):`<tr><td colspan="8"><div class="empty"><div class="icon">📅</div><p>No monthly data yet</p></div></td></tr>`;
+}
+function openMonthDrill(monthKey){
+  // monthKey = "2024-03"
+  const [yr,mo]=monthKey.split('-');
+  const label=MONTH_NAMES[parseInt(mo,10)-1]+' '+yr;
+  const monthBills=bills.filter(b=>{
+    if(!b.date)return false;
+    return b.date.startsWith(monthKey);
+  }).sort((a,b)=>b.date<a.date?-1:1);
+  const statusBadge=s=>s==='Paid'?'badge-paid':s==='Partially Paid'?'badge-partial':'badge-pending';
+  const now=todayStr();
+  document.getElementById('monthly-drill-title').textContent=`📋 All Bills — ${label}`;
+  document.getElementById('monthly-drill-body').innerHTML=monthBills.length?monthBills.map((b,i)=>{
+    const over=b.duedate&&b.duedate<now&&b.status!=='Paid';
+    return`<tr>
+      <td style="white-space:nowrap">${fmtD(b.date)}</td>
+      <td><strong>${b.vendor}</strong></td>
+      <td>${b.category||'—'}</td>
+      <td style="font-family:monospace;font-size:12px">${b.billno}</td>
+      <td class="amt-blue">${INR(b.total)}</td>
+      <td class="amt-green">${INR(b.paid)}</td>
+      <td class="${b.balance>0?'amt-red':''}">${INR(b.balance)}</td>
+      <td><span class="badge ${statusBadge(b.status)}">${b.status}</span>${over?'<br><span class="badge badge-overdue" style="margin-top:2px">OVERDUE</span>':''}</td>
+      <td style="white-space:nowrap">${fmtD(b.duedate)}</td>
+      <td style="max-width:160px;white-space:normal">${b.remarks||'—'}</td>
+    </tr>`;}).join(''):'<tr><td colspan="10"><div class="empty"><div class="icon">📭</div><p>No bills for this month.</p></div></td></tr>';
+  const totTotal=monthBills.reduce((s,b)=>s+b.total,0);
+  const totPaid=monthBills.reduce((s,b)=>s+b.paid,0);
+  document.getElementById('monthly-drill-stats').innerHTML=`<span class="stat">Bills: <strong>${monthBills.length}</strong></span><span class="stat">Total: <strong>${INR(totTotal)}</strong></span><span class="stat">Paid: <strong style="color:var(--green)">${INR(totPaid)}</strong></span><span class="stat">Balance: <strong style="color:var(--red)">${INR(totTotal-totPaid)}</strong></span>`;
+  const drill=document.getElementById('monthly-drill');
+  drill.classList.add('open');
+  setTimeout(()=>drill.scrollIntoView({behavior:'smooth',block:'start'}),50);
+}
+function closeMonthDrill(){
+  document.getElementById('monthly-drill').classList.remove('open');
 }
  
 // ── Schedule ──
@@ -1219,39 +1440,137 @@ function exportCSV(){
 }
  
 // ── Register Log Report ──
+// Shows one SUMMARY row per bill: total due, total paid (across all payment entries).
 function renderRegLog(){
   const el=document.getElementById('regLog-body');
   if(!el)return;
   const rows=[...bills].sort((a,b)=>a.date<b.date?-1:1);
-  document.getElementById('regLog-meta').textContent=`Full Register Log — ${rows.length} entries · generated ${fmtD(todayStr())}`;
+  document.getElementById('regLog-meta').textContent=`Register Log — ${rows.length} bill${rows.length===1?'':'s'} · generated ${fmtD(todayStr())}`;
   el.innerHTML=rows.length?rows.map((b,i)=>{
     const statusBadge=b.status==='Paid'?'badge-paid':b.status==='Partially Paid'?'badge-partial':'badge-pending';
+    // Build payment breakdown tooltip / sub-text
+    const pmts=Array.isArray(b.payments)?b.payments:[];
+    const pmtCount=pmts.length;
+    let pmtDetail='';
+    if(pmtCount>0){
+      pmtDetail=pmts.map((pm,pi)=>`${pi+1}) ${fmtD(pm.date)} — ${INR(pm.amount)}${pm.mode?' ('+pm.mode+')':''}`).join(' | ');
+    }
     return`<tr>
       <td style="color:var(--muted);font-size:12px">${i+1}</td>
       <td style="white-space:nowrap">${fmtD(b.date)}</td>
       <td><strong>${b.vendor}</strong></td>
-      <td>${b.category||'—'}</td>
-      <td>${b.subcat||'—'}</td>
+      <td>${b.category||'&#x2014;'}</td>
+      <td>${b.subcat||'&#x2014;'}</td>
       <td style="font-family:monospace;font-size:12px">${b.billno}</td>
       <td style="white-space:nowrap">${fmtD(b.billdate)}</td>
       <td>${INR(b.amount)}</td>
       <td>${INR(b.gst)}</td>
-      <td class="amt-blue">${INR(b.total)}</td>
-      <td class="amt-green">${INR(b.paid)}</td>
-      <td class="${b.balance>0?'amt-red':''}">${INR(b.balance)}</td>
+      <td class="amt-blue"><strong>${INR(b.total)}</strong></td>
+      <td class="amt-green" title="${pmtDetail}">
+        <strong>${INR(b.paid)}</strong>
+        ${pmtCount>1?`<br><span style="font-size:10px;color:var(--muted);font-weight:400">${pmtCount} payments</span>`:''}
+        ${pmtCount===1?`<br><span style="font-size:10px;color:var(--muted);font-weight:400">1 payment</span>`:''}
+      </td>
+      <td class="${b.balance>0?'amt-red':''}"><strong>${INR(b.balance)}</strong></td>
       <td><span class="badge ${statusBadge}">${b.status}</span></td>
-      <td style="white-space:nowrap">${fmtD(b.paydate)}</td>
-      <td>${b.paymode||'—'}</td>
-      <td style="font-family:monospace;font-size:12px">${b.utr||'—'}</td>
+      <td style="white-space:nowrap;font-size:12px">${fmtD(b.paydate)}${pmtCount>1?`<br><span style="font-size:10px;color:var(--muted)">Last of ${pmtCount}</span>`:''}</td>
+      <td>${b.paymode||'&#x2014;'}</td>
+      <td style="font-family:monospace;font-size:12px">${b.utr||'&#x2014;'}</td>
       <td style="white-space:nowrap">${fmtD(b.duedate)}</td>
-      <td style="max-width:180px;white-space:normal">${b.remarks||'—'}</td>
-    </tr>`;}).join(''):`<tr><td colspan="19"><div class="empty"><div class="icon">📜</div><p>No bills logged yet</p></div></td></tr>`;
+      <td style="max-width:200px;white-space:normal">${b.remarks||'&#x2014;'}</td>
+    </tr>`;}).join(''):`<tr><td colspan="18"><div class="empty"><div class="icon">&#x1F4DC;</div><p>No bills logged yet</p></div></td></tr>`;
 }
  
 function refreshAll(){
   renderDashboard();renderReg();renderVendors();renderMonthly();renderSchedule();renderSummary();renderRegLog();renderSettings();refreshVendorDL();
 }
  
+// ── Sidebar state ──
+// 'expanded' = full sidebar showing | 'collapsed' = icon-strip | 'hidden' = fullscreen
+let sidebarState = 'collapsed'; // default: icon strip
+
+function applyState(state){
+  sidebarState = state;
+  const sidebar = document.getElementById('sidebar');
+  const main    = document.getElementById('main');
+  const overlay = document.getElementById('sidebar-overlay');
+  const fsLabel = document.getElementById('fullscreen-label');
+  const fsBtn   = document.getElementById('fullscreen-btn');
+  const isMobile = window.innerWidth <= 768;
+
+  // Remove all state classes first
+  sidebar.classList.remove('collapsed','hidden-full','mobile-open');
+  main.classList.remove('sidebar-collapsed','sidebar-hidden');
+  overlay.classList.remove('show');
+
+  if(isMobile){
+    if(state === 'expanded'){
+      sidebar.classList.add('mobile-open');
+      overlay.classList.add('show');
+    }
+    // on mobile: collapsed/hidden both keep sidebar off-screen (transform -100%)
+    // no margin adjustment needed (main is already margin-left:0 on mobile via media query)
+  } else {
+    if(state === 'collapsed'){
+      sidebar.classList.add('collapsed');
+      main.classList.add('sidebar-collapsed');
+    } else if(state === 'hidden'){
+      sidebar.classList.add('hidden-full');
+      main.classList.add('sidebar-hidden');
+    }
+    // expanded = no extra classes; --sidebar-w (220px) applies naturally
+  }
+
+  if(fsLabel){
+    fsLabel.textContent = state === 'hidden' ? 'Exit Full Screen' : 'Full Screen';
+  }
+  try{ localStorage.setItem('sidebarState', isMobile ? 'collapsed' : state); } catch(e){}
+}
+
+function toggleSidebar(){
+  const isMobile = window.innerWidth <= 768;
+  if(isMobile){
+    applyState(sidebarState === 'expanded' ? 'collapsed' : 'expanded');
+  } else {
+    applyState(sidebarState === 'collapsed' ? 'expanded' : 'collapsed');
+  }
+}
+
+function closeSidebar(){
+  applyState('collapsed');
+}
+
+function toggleFullscreen(){
+  applyState(sidebarState === 'hidden' ? 'collapsed' : 'hidden');
+}
+
+// Restore saved state on load
+(function(){
+  try{
+    const saved = localStorage.getItem('sidebarState');
+    if(saved && window.innerWidth > 768) applyState(saved);
+    else applyState('collapsed');
+  } catch(e){ applyState('collapsed'); }
+})();
+
+// Override nav to also close sidebar overlay on mobile
+const _navOrig = nav;
+window.nav = function(id, el){
+  _navOrig(id, el);
+  if(window.innerWidth <= 768) applyState('collapsed');
+};
+
+// Handle resize edge cases
+window.addEventListener('resize', function(){
+  if(window.innerWidth > 768 && sidebarState === 'expanded'){
+    // transition from mobile-open to expanded desktop
+    applyState('expanded');
+  }
+  if(window.innerWidth <= 768){
+    applyState('collapsed');
+  }
+});
+
 initAuth();
 </script>
 </body>
